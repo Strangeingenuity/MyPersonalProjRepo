@@ -1,0 +1,12 @@
+<apex:page standardController="Account" ShowHeader="False" recordsetVar="accounts">
+    <script scr="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script scr="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+    <script scr="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/ui-lightness/jquery-ui.css"></script>
+        <script>
+                $j = jQuery.noConflict();
+                $j(document).ready(function() {
+                alert(‘Welcome!’);
+                console.log("I am here:");
+                } );
+        </script>
+</apex:page>

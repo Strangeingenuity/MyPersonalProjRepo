@@ -1,0 +1,68 @@
+<apex:page >
+<script type="text/javascript" src="/js/functions.js"></script>
+<script src="/soap/ajax/17.0/connection.js"></script>
+<script src="/soap/ajax/17.0/apex.js" type="text/javascript"></script>
+<html>
+ <head>
+ <title>Learning jQuery</title>
+
+ <meta charset="utf-8" />
+ <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+ <apex:includeScript value="{!$Resource.JqueryUdemy}"/>
+ 
+ <style>
+
+     #circle {
+     width:200px;
+     height:200px;
+     background-color:green;
+     border-radius:100px;
+     }
+    
+     .square {
+     width:200px;
+     height:200px;
+     background-color:red;
+     margin-top:10px;
+     }
+     
+ </style>
+
+ </head>
+
+ <body>
+  <form name="myform">
+  <fieldset>
+    <label for="male">FirstName</label>
+    <input type="text" align="right" name="firstname"> </input>
+    <label for="male">Phone</label>
+    <input type="text" align="right" name="Phone"> </input><br></br>
+    <label for="male">LastName</label>
+    <input type="text" align="right" name="LastName"> </input>
+        <label for="male">Mobile</label>
+    <input type="text" align="right" name="Mobile"> </input><br></br>
+    <label for="male">Email</label>
+    <input type="text" align="right" name="Email"> </input> <br></br>
+   <label for="male">Resume</label>
+    <input type="text" align="right" name="Resume"> </input> <br></br>    
+
+
+
+    </fieldset>
+    </form>
+ <script>
+
+     $("div").click(function() {
+    
+     alert("Div1 Clicked!");
+       
+     });
+
+ </script>
+    
+ </body>    
+        
+</html>    
+</apex:page>

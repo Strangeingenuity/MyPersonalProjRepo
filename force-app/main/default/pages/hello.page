@@ -1,0 +1,20 @@
+<apex:page sidebar="false" showHeader="true">
+  <h1>Hello World</h1>
+    <apex:pageBlock title="A Block Title"> 
+        <apex:pageBlocksection title="A Section Title">
+                 I am three levels deep
+                 and I am {!$User.FirstName &' '& $User.LastName}
+                 <p> Today's date is {!Today()} </p>
+                 <P> Next week will be {!TODAY() +7}   </p>
+                 <p> Today's date is {! YEAR(TODAY())} </p>
+                 <p> Tomorrow will be day number {! DAY (TODAY()+1)} </p>
+                 <p> The maximum of the number will be {! MAX(1,2,6,3,4,5,8,9)} </p>
+                 <p> is it true {!contains ('salesforce.com','force.com')}</p>
+                 
+                 <p> {! IF (DAY(TODAY()) > 14, 'yeah', 'nah')} </p>
+                 
+        </apex:pageBlocksection>
+    </apex:pageBlock>
+  <!-- Begin Default Content REMOVE THIS -->
+    <!-- End Default Content REMOVE THIS -->
+</apex:page>

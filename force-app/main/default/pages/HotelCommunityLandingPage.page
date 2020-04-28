@@ -1,0 +1,20 @@
+<apex:page ShowHeader="false" Controller="HotelPageController" >
+   <apex:include pageName="HotelCommunityHomePage"/>
+   <div class="main_bg">
+       <div class="">
+           <img src="{!hotel.Preview_BackgroundImg__c}"/>
+           <h1>Welcome to the {!hotel.Name}</h1>
+           <p>{!hotel.EasyLife__Home_Page_Text__c}</p>
+           <h2 style ="color: #{!contact.Text_color__C};">Latest News</h2>
+           <ul>
+               <apex:repeat value="{!hotelNews}" var="news" Id="newsRepeater">
+                   <li>
+                       <span style ="font-weight: bold;">{!news.title}</span> <!-- {!news.createDate} -->
+                       <p class ="smalltext">{!news.content}</p>
+                   </li>
+               </apex:repeat>
+           </ul>
+       </div>    
+   </div>
+   <!-- <apex:include pageName="HotelCommunityHomePage"/> -->
+</apex:page>

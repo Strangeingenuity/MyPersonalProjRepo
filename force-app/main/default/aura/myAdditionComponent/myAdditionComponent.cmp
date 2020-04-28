@@ -1,0 +1,15 @@
+<aura:component implements="force:appHostable" >
+	<aura:attribute name="fitstNum" type="Integer" default="5" />
+    <aura:attribute name="SecondNum" type="Integer" default="6" />
+    <aura:attribute name="sumTotal" type="Integer"/>
+
+    
+    
+<div>
+    <ui:inputNumber label="firstNumber" value="{!v.fitstNum}" />
+    <ui:inputNumber label="firstNumber" value="{!v.SecondNum}" />
+    <button onclick="{!c.sumThetwoNums}">CalculateSum</button>
+    <h2> sumofTwoNums: <ui:outputNumber value="{!v.sumTotal}" format=".00"/></h2>
+</div>
+
+</aura:component>

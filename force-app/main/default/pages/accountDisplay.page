@@ -1,0 +1,11 @@
+<apex:Page standardcontroller="Account">
+    <apex:pageBlock title="My Accounts Contacts">
+        <apex:pageBlockTable Value="{! account.contacts}" var="item">
+        <apex:column value="{! item.name}"/>
+        <apex:column Value="{! item.Phone}"/>
+        </apex:pageBlockTable>
+    <apex:outputLink Value="http://developer.force.com/">Click Me!</apex:outputLink>
+    <apex:outputLink Value="{!$Page.accountDisplay}"> I am me !</apex:outputLink>>
+    <apex:outputLink value="{! URLFOR($Action.Account.new)}">Create</apex:outputLink>            
+    </apex:pageBlock>
+</apex:page>

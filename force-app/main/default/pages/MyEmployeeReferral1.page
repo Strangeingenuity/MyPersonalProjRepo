@@ -1,0 +1,110 @@
+<apex:page >
+<script type="text/javascript" src="/js/functions.js"></script>
+<script src="/soap/ajax/17.0/connection.js"></script>
+<script src="/soap/ajax/17.0/apex.js" type="text/javascript"></script>
+<html>
+ <head>
+ <title>Learning jQuery</title>
+
+ <meta charset="utf-8" />
+ <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+ <apex:includeScript value="{!$Resource.JqueryUdemy}"/>
+ 
+ <style>
+
+     #circle {
+     width:200px;
+     height:200px;
+     background-color:green;
+     border-radius:100px;
+     }
+    
+     .square {
+     width:200px;
+     height:200px;
+     background-color:red;
+     margin-top:10px;
+     }
+     
+ </style>
+
+ </head>
+
+ <body>
+<form id="refForm" name="refForm">
+    <table ID="Table1">
+        <tr>
+            <th colspan="2">
+                Department</th><th colspan="2">Open Positions</th>
+        </tr>
+
+        <tr>
+            <td>Choose:</td>
+            <td>
+                <select id="deptSelector" type="select-one" size="1" NAME="deptSelector" onchange="javascript:deptChanged(this.options[this.selectedIndex].text);">
+                    <option value="none">-- None --</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="IT">IT</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Support">Support</option>
+                    <option value="Sales">Sales</option>
+                </select>
+            </td>
+            <td>Choose:</td>
+            <td>
+                <select id="posSelector1" NAME="posSelector1" type="select-one" size="1"></select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">&nbsp;<br /></td>
+        </tr>
+            <td colspan="1"><h3>Candidate Info:</h3></td>
+            <td colspan="3">&nbsp;</td>
+        <tr>
+        </tr>
+
+    <!-- create a Candidate info entry form -->
+    </table>
+
+<table id="CandidateInfo">
+     <tr>
+         <td>First Name:</td><td><input type="text" id="firstname" /></td><td>Phone:</td><td><input type="text" id="phone" /></td>
+     </tr>
+     <tr>
+        <td>Lst Name:</td><td><input type="text" id="Lasttname" /></td><td>Mobile:</td><td><input type="text" id="Mobile" /></td>
+      </tr>
+     <tr>
+        <td>Email:</td><td><input type="text" id="email"/></td>
+      </tr>
+      
+      <tr>
+        <td>Resume:</td><td><input type="file" value="Browse" name="avatar" id="id_avatar"/></td>
+      </tr>
+      
+        <table cellpadding="0" cellspacing="0" border="0" ID="Table2">
+        <tr>
+            <td class="pbTitle"><img src="/s.gif" alt="" width="1" height="0" class="minWidth" title="" />&nbsp;</td>
+            <td class="pbButtonb"><input value=" Save " class="btn" type="button" title="Save" name="save" onclick='javascript:validate();' ID="Button1" /></td>
+        </tr>
+    </table>  
+</table>
+
+
+</form>
+
+ <script>
+
+     $("div").click(function() {
+    
+     //alert("Div1 Clicked!");
+       
+     });
+
+ </script>
+    
+ </body>    
+        
+</html>    
+</apex:page>

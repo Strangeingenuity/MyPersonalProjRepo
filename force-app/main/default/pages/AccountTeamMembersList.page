@@ -1,0 +1,113 @@
+<apex:page standardController="Account" extensions="AccountTeamMembersListNew" showheader="true" sidebar="true" tabStyle="Account">
+  <apex:includeScript value="/xdomain/xdomain.js"/>
+  <apex:includeScript value="/soap/ajax/26.0/connection.js"/>
+  <apex:includeScript value="/support/console/26.0/integration.js"/>
+  <apex:form id="frm">
+    <apex:outputPanel id="fullPage">
+    <apex:actionFunction name="deleteATM_AF" action="{!doDelete}" rerender="fullPage">
+      <apex:param name="delParam" assignTo="{!selectedId}" value=""/>
+    </apex:actionFunction>
+    <apex:pageBlock mode="inlineEdit">
+    <apex:pageMessages id="msg"/>
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="Add" rendered="{!AND(OR($Profile.Name == 'System Administrator',$Profile.Name == 'Certified Sales Administrators',$Profile.Name == 'Sales Effectiveness'), $ObjectType.Account.updateable)}"  onClick="addMember('{!acc.Id}');"/>
+        <apex:commandButton rerender="frm" value="Dsiplay Access" onClick="goToList('{!acc.Id}');" rendered="{!$ObjectType.Account.updateable}" disabled="{!displayAccess}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockSection columns="1">
+      <apex:outputPanel id="showMembersPanel">
+        <apex:pageBlockTable value="{!accountTeamMembersToShow}" var="teamMember">
+          <apex:column headerValue="Action">
+            <apex:outputPanel layout="inline" rendered="{!$ObjectType.Account.updateable}"><a onClick="editMember('{!acc.Id}','{!teamMember.member.Id}');" style="cursor: pointer;text-decoration: underline;color: #015ba7;">{Edit}</a>&nbsp;|&nbsp;</apex:outputPanel>
+            <apex:outputPanel layout="inline" rendered="{!$ObjectType.Account.updateable}"><a onClick="deleteATM('{!teamMember.member.Id}');" style="cursor: pointer;text-decoration: underline;color: #015ba7;">{Delete}</a></apex:outputPanel>
+          </apex:column>
+          <apex:column headerValue="Team Member">
+            <apex:outputLink value="/{!teamMember.member.userId}" target="_blank">
+              <apex:outputField value="{!teamMember.member.user.Name}" />
+            </apex:outputLink>
+          </apex:column>
+          <apex:column headerValue="Account Access" rendered="{!displayAccess}">
+            <apex:outputField value="{!teamMember.member.AccountAccessLevel}"/>
+          </apex:column>
+          <apex:column headerValue="Opty Access" rendered="{!displayAccess}">
+            <apex:outputText value="{!teamMember.opportunityAccess}"/>
+          </apex:column>
+          <apex:column headerValue="Case Access" rendered="{!displayAccess}">
+            <apex:outputText value="{!teamMember.caseAccess}"/>
+          </apex:column>
+          <apex:column headerValue="Team Role">
+            <apex:outputField value="{!teamMember.member.TeamMemberRole}"/>
+          </apex:column>
+         <!-- <apex:column headerValue="Sales Team"> <!-- 11 Mar 15 GC - T-369312 
+            <apex:outputText value="{!teamMember.member.User.Sales_Team__c}"/>
+          </apex:column>
+          <apex:column headerValue="{!$Label.AccountTeamMembersList_Sales_Sub_Team}">  11 Mar 15 GC - T-369312
+            <apex:outputText value="{!teamMember.member.User.Sales_Sub_Team__c}"/>
+          </apex:column> -->
+        </apex:pageBlockTable>
+        <br/>
+        <apex:commandLink value="Show More" action="{!showMoreRecords}" rerender="frm" rendered="{!!reachedMax}"/>
+<!--        <a onClick = "showMore();" style="cursor: pointer;text-decoration: underline;"></a> -->
+        <apex:outputText value=" | " rendered="{!!reachedMax}"/>
+        <a onClick = "goToList('{!acc.Id}');" style="cursor: pointer;text-decoration: underline;" >{GoToList} ({!listSize})</a>
+      </apex:outputPanel>
+     </apex:pageBlockSection>
+    </apex:pageBlock>
+    </apex:outputPanel>
+  </apex:form>
+
+<script>
+  function editMember ( accntId, memId) {
+  
+    var editUrl = "/acc/salesteamedit.jsp?retURL=/"+accntId+"&id="+memId;
+    if (sforce.console.isInConsole()) {
+     
+     sforce.console.getEnclosingTabId(function(enclosingResult) {
+            sforce.console.getEnclosingPrimaryTabId(function(primaryResult) {
+                sforce.console.openSubtab(primaryResult.id, editUrl, true, '', null);
+            });
+        });
+    }
+    else {
+      window.parent.location.href = editUrl;
+      }
+    return false;
+  }
+  
+  function deleteATM ( atmId) {
+    if( confirm('Record Delete Message') ) {
+      deleteATM_AF(atmId);
+    }
+    return false;
+  }
+  function addMember (accntId) {
+    var addMemberUrl = "/apex/AccountTeamMembersListEdit?Id="+accntId+"&showAddMemberSection=true";
+    if (sforce.console.isInConsole()) {
+     
+     sforce.console.getEnclosingTabId(function(enclosingResult) {
+            sforce.console.getEnclosingPrimaryTabId(function(primaryResult) {
+                sforce.console.openSubtab(primaryResult.id, addMemberUrl, true, '', null);
+            });
+        });
+    }
+    else {
+      window.parent.location.href = addMemberUrl;
+      } 
+    return false;
+  }
+  function goToList (accntId) {
+    var listUrl = "/acc/accteammemberlist.jsp?id="+accntId;
+    if (sforce.console.isInConsole()) {
+     
+     sforce.console.getEnclosingTabId(function(enclosingResult) {
+            sforce.console.getEnclosingPrimaryTabId(function(primaryResult) {
+                sforce.console.openSubtab(primaryResult.id, listUrl, true, '', null);
+            });
+        });
+    }
+    else {
+      window.parent.location.href = listUrl;
+    }
+  }
+  
+</script>
+</apex:page>

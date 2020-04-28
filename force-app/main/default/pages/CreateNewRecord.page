@@ -1,0 +1,6 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>This is a Visual Force to Create a New Record</h1>
+  This is your new Page: CreateNewRecord
+  <!-- End Default Content REMOVE THIS -->
+</apex:page>

@@ -1,0 +1,98 @@
+<aura:component controller="CscComm_CastListController" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="orderBy" type="String"/>
+    <aura:attribute name="order" type="String"/>
+    <aura:attribute name="cases" type="Object[]"/>
+    <aura:attribute name="completeListCases" type="Object[]"/>
+    <aura:attribute name="searchType" type="String"/>
+
+    <aura:attribute name="recordsPerPage" type="String" default="10"/>
+    <aura:attribute name="currentPageNumber" type="String" default="1"/>
+    <aura:attribute name="currentPageCases" type="sObject[]"/>
+    <aura:attribute name="lastPageNumber" type="String" default="0"/>
+    <aura:attribute name="lastValidPageNumber" type="String" default="1"/>
+
+    <aura:attribute name="caseStatus" type="String" default=""/>
+
+    <aura:attribute name="dateSet" type="Array[]"/>
+
+    <aura:attribute name="searchingKey" type="String"/>
+
+    <aura:attribute name="translatedTitle" type="String"/>
+
+    <ltng:require styles="{!$Resource.ExpComm_Google_Roboto_Font}" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+<!--     <aura:handler event="c:CaseListSearchKeyChange" action="{!c.searchLocal}"/> -->
+
+    <aura:handler name="change" value="{!v.searchingKey}" action="{!c.searchLocal}"/>
+
+    <div class="cases-status-title">
+        <div class="status-title">{!v.translatedTitle}</div>
+    </div>
+
+    <div class="filter-search">
+        <div class="search-by-header">Search Cases By: </div>
+        <ui:inputSelect aura:id="searchTypeSelection" class="search-by-field">
+            <!-- <ui:inputSelectOption text="CaseNumber" label="{!$Label.c.CustCom_CaseList_Col_CaseNum}"/>
+            <ui:inputSelectOption text="Subject" label="{!$Label.c.CustCom_CaseList_Col_Subject}"/>
+            <ui:inputSelectOption text="Status" label="{!$Label.c.CustCom_CaseList_Col_Status}"/> -->
+            <ui:inputSelectOption text="CaseNumber" label="Case Number"/>
+            <ui:inputSelectOption text="Subject" label="Subject"/>
+            <ui:inputSelectOption text="Status" label="Status"/>
+        </ui:inputSelect>
+        <ui:inputText class="form-control search-key" placeholder="Start typing to search" value="{!v.searchingKey}" updateOn="keyup"/>
+    </div>
+    
+    
+    <div>
+        <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+            <thead >
+                <tr class="slds-line-height--reset">
+                    <th class="table-row-content" scope="col"><ui:outputURL value="" aura:id="CaseNumber" label="Case Number" click="{!c.sortLocal}"/> <ui:outputText aura:Id="CaseNumberDir" value=""/></th>
+                    <th class="table-row-content" scope="col"><ui:outputURL value="" aura:id="Subject" label="Subject" click="{!c.sortLocal}"/> <ui:outputText aura:Id="SubjectDir" value=""/></th>
+                    <th class="table-row-content" scope="col"><ui:outputURL value="" aura:id="Status" label="Status" click="{!c.sortLocal}"/> <ui:outputText aura:Id="StatusDir" value=""/></th>
+                    <th class="table-row-content hide-on-mobile" scope="col"><ui:outputURL value="" aura:id="CreatedDate" label="Created" click="{!c.sortLocal}"/> <ui:outputText aura:Id="CreatedDateDir" value=""/></th>
+                    <th class="table-row-content hide-on-mobile" scope="col"><ui:outputURL value="" aura:id="LastModifiedDate" label="Last Modified" click="{!c.sortLocal}"/> <ui:outputText aura:Id="LastModifiedDateDir" value=""/></th>
+                </tr>
+
+                
+            </thead>
+            <tbody>
+            
+            <aura:iteration items="{!v.currentPageCases}" var="case">
+                <tr class="tBodyRow">
+                   
+                    <td class="tBodyColumn table-row-content"><a href="{!case.CaseLink}">{!case.CaseNumber} </a></td>
+                    <td class="tBodyColumn table-row-content table-row-content-break-all">{!case.Subject}</td>
+                    <td class="tBodyColumn table-row-content">{!case.Status}</td>
+                    <td class="tBodyColumn table-row-content hide-on-mobile">{!case.CreatedDate}</td>
+                    <td class="tBodyColumn table-row-content hide-on-mobile">{!case.LastModifiedDate}</td>
+                   
+                </tr>
+            </aura:iteration>
+            </tbody>
+        </table>
+
+        <div class="pagination-control-section">
+
+            <div class="paginationPageSelectorCommonSetting" aura:id="page-number-div">
+                <div class="vertical-middle-div float-left right-margin">Page</div>
+                <div class="vertical-middle-div float-left page-enter-section">
+                    <ui:inputText class="form-control mb-2 mr-sm-2 mb-sm-0 paginationPageSelector float-left right-margin" value="{!v.currentPageNumber}" placeholder="" change="{!c.pageNumberChanged}"/>
+                </div>
+                
+                <div class="vertical-middle-div float-left right-margin"> of </div>
+                <div class="vertical-middle-div float-left"> <ui:outputText aura:id="LastPageNumber" value="{!v.lastPageNumber}"></ui:outputText></div>
+            </div>
+
+            <div class="page-ctrl-btns">
+                <ui:button class="pageBtn" aura:id="cccl_preBtn" press="{!c.previousPage}">Previous</ui:button>
+                <ui:button class="pageBtn" aura:id="cccl_nxtBtn" press="{!c.nextPage}">Next</ui:button>
+            </div>
+            
+            
+        </div>
+    </div>
+
+    <div class="cmp-bottom-margin"></div>
+</aura:component>

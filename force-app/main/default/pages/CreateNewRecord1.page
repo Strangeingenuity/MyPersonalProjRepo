@@ -1,0 +1,15 @@
+<apex:page controller="NewEditRec" tabstyle="Account">
+    <apex:form >
+        <apex:pageBlock mode="edit" >
+        <apex:pageMessages />
+            <apex:pageblocksection >
+                       <apex:inputField value="{!accounts.name}"/>
+                       <apex:inputField value="{!accounts.Phone}"/>
+                        <apex:inputField value="{!accounts.Industry}"/>
+            </apex:pageblocksection>           
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="save" action="{!save}" />
+            </apex:pageBlockButtons>   
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

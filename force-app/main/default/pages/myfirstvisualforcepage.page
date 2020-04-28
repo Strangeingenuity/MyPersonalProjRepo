@@ -1,0 +1,18 @@
+<apex:page standardController="Account" ShowHeader="False" recordsetVar="accounts">
+    <div style="width:100%; position: absolute; height:30x; background-color:#0000EE">
+         <H1><apex:outputText value="{!Account.Name}"/></H1>
+    </div>
+    
+    
+    <div style="Position: absolute; left: 5px top: 30px;">
+        <H3>Accounts:</h3>
+        <apex:datalist value="{!accounts}" var="rec" id="theList">
+        <a href="/apex/myfirstvisualforcepage?id={!rec.Id}"><apex:outputText value="{!rec.name}"/></a>
+        </apex:datalist>
+    </div>
+    
+    
+    <div style="position: absolute; left: 300px;">
+        <apex:detail />
+    </div>
+</apex:page>

@@ -1,0 +1,76 @@
+<aura:component controller="CaseListController_lightning" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes">
+    <aura:attribute name="orderBy" type="String"/>
+    <aura:attribute name="order" type="String"/>
+    <aura:attribute name="cases" type="Object[]"/>
+    <aura:attribute name="completeListCases" type="Object[]"/>
+    <aura:attribute name="searchType" type="String"/>
+
+    <aura:attribute name="recordsPerPage" type="String" default="10"/>
+    <aura:attribute name="currentPageNumber" type="String" default="1"/>
+    <aura:attribute name="currentPageCases" type="sObject[]"/>
+    <aura:attribute name="lastPageNumber" type="String" default="0"/>
+    <aura:attribute name="lastValidPageNumber" type="String" default="1"/>
+
+
+    <aura:attribute name="dateSet" type="Array[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:CaseListSearchKeyChange" action="{!c.searchLocal}"/>
+    
+
+    <div class="filter-search">
+        <div class="search-by-header">Search Case By:</div>
+        <ui:inputSelect aura:id="searchTypeSelection" class="search-by-field">
+            <ui:inputSelectOption text="CaseNumber" label="Case Number"/>
+            <ui:inputSelectOption text="Subject" label="Subject"/>
+            <ui:inputSelectOption text="Status" Label="Status"/>
+        </ui:inputSelect>
+        <input type="text" class="form-control search-key" placeholder="Start Typing to Search" onkeyup="{!c.SearchKeyFireEvent}"/>
+    </div>
+    
+    
+    <div>
+        <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+            <thead >
+                <tr class="slds-line-height--reset">
+                    <th scope="col"><ui:outputURL aura:id="CaseNumber" label="Case Number" click="{!c.sortLocal}"/> <ui:outputText aura:Id="CaseNumberDir" value=""/></th>
+                    <th scope="col"><ui:outputURL aura:id="Subject" label="Subject" click="{!c.sortLocal}"/> <ui:outputText aura:Id="SubjectDir" value=""/></th>
+                    <th scope="col"><ui:outputURL aura:id="Status" label="Status" click="{!c.sortLocal}"/> <ui:outputText aura:Id="StatusDir" value=""/></th>
+                    <th scope="col"><ui:outputURL aura:id="CreatedDate" label="Date Opened" click="{!c.sortLocal}"/> <ui:outputText aura:Id="CreatedDateDir" value=""/></th>
+                    <th scope="col"><ui:outputURL aura:id="LastModifiedDate" label="Last Modified Date" click="{!c.sortLocal}"/> <ui:outputText aura:Id="LastModifiedDateDir" value=""/></th>
+                </tr>
+
+                
+            </thead>
+            <tbody>
+            
+            <aura:iteration items="{!v.currentPageCases}" var="case">
+                <tr class="tBodyRow">
+                   
+                    <td class="tBodyColumn"><a href="{! '#/sObject/' + case.Id + '/view'}">{!case.CaseNumber} </a></td>
+                    <td class="tBodyColumn">{!case.Subject}</td>
+                    <td class="tBodyColumn">{!case.Status}</td>
+                    <td class="tBodyColumn">{!case.CreatedDate}</td>
+                    <td class="tBodyColumn">{!case.LastModifiedDate}</td>
+                   
+                </tr>
+            </aura:iteration>
+            </tbody>
+        </table>
+
+        <div class="pagination-control-section">
+
+            <button aura:id="prePageBtn" class="pageBtn" onclick="{!c.previousPage}">Previous</button>
+            <button aura:id="nextPageBtn" class="pageBtn" onclick="{!c.nextPage}">Next</button>
+            <div class="paginationPageSelectorCommonSetting hide-div">
+                <div class="float-left right-margin">Page</div>
+                <ui:inputText class="form-control mb-2 mr-sm-2 mb-sm-0 paginationPageSelector float-left right-margin" value="{!v.currentPageNumber}" placeholder="" change="{!c.pageNumberChanged}"/>
+                
+                <div class="float-left right-margin"> of </div>
+                <div class="float-left"> <ui:outputText aura:id="LastPageNumber" value="{!v.lastPageNumber}"></ui:outputText></div>
+            </div>
+        </div>
+    </div>
+
+
+
+</aura:component>

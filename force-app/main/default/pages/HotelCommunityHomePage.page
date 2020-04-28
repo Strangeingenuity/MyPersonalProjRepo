@@ -1,0 +1,19 @@
+<apex:page ShowHeader="false" Controller="HotelCommunityController">
+   <link href="https://my.cdn.com/css/style.css" rel="stylesheet" type ="text/css" />
+   <!--start header --> 
+   <div class = "header_bg">
+        <div class ="wrap">
+            <div class ="header" style ="background-image: url({!contact.Hotel_Img__c});">
+                <div class="logo">{!contact.Hotel_Name__c}></div>
+                    <div class="nav">
+                        <ul class ="menu">
+                            <li classs="active"><a href="{!$site.prefix}/HotelHomePage">hotel</a></li>
+                            <li><a href="{!$site.prefix}/RoomsPage?hotelId={!contact.Hotel__c}">rooms and suites</a></li>
+                            <li><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp">Log Out</apex:outputLink></li>
+                        </ul>
+                        </div>
+                   <div class="username">welcome back , {!$User.FirstName} {!$User.LastName}</div>
+            </div>  
+        </div>
+    </div>
+</apex:page>

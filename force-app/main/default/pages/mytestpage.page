@@ -1,0 +1,45 @@
+<apex:page Controller="MyCustomController">
+<apex:form >
+<apex:pageBlock >
+
+<apex:pageBlockSection title="Contact Entry Page" columns="2">
+   <apex:pageBlockSectionItem >
+        <apex:outputLabel >First Name</apex:outputLabel>
+        <apex:outputLabel >Last Name</apex:outputLabel>
+   </apex:pageBlockSectionItem>
+   <apex:pageBlockSectionItem >
+                <apex:inputField value="{!Con.FirstName}"/>
+                <apex:inputField value="{!Con.LastName}"/>
+   </apex:pageblockSectionItem>
+</apex:pageBlockSection> 
+
+<apex:pageBlockButtons >
+ <apex:commandButton value="Save" action="{!save}"/>
+   <!-- <apex:commandButton value="save & New" action="{!quicksave}"/>
+ //<apex:commandButton value="Cancel" action="{!cancel}"/>-->
+</apex:pageBlockButtons>
+
+ 
+         </apex:pageBlock>
+</apex:form>
+
+<script>
+   j$ = jQuery.noConflict();
+   j$(document).ready(function() {
+        j$(".createContact").click(function() {
+           MyCustomController.createContact(j$('#firstName').val(),j$('#lastName').val(),handleContactCreate);
+        });
+  );
+
+  function handleContactCreate(result,event) {
+         if(event.type == 'exception') {
+              alert(event.message);
+          } else {
+
+            alert('A contact was created with the ID: '+result);
+          }
+      }
+  }
+
+ </script>
+</apex:page>

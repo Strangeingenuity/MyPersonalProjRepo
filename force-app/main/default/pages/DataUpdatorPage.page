@@ -1,0 +1,21 @@
+<apex:page controller="EasyLifCSVDataImportController">
+    <apex:form >
+        <apex:pagemessages />
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="4">
+                  <apex:inputFile value="{!FileBody}" filename="{!FileConToString}"/>
+                  <apex:commandButton value="Import Data" action="{!importCSVFile}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <apex:pageBlock >
+           <apex:pageblocktable value="{!DataList}" var="Datas">
+              <apex:column value="{!Datas.Column_New_Value__c}" />
+              <apex:column value="{!Datas.Column_Old_Value__c}" />
+              <apex:column value="{!Datas.RecordId__c}" />
+              <apex:column value="{!Datas.ObjectName__c}" />
+              <apex:column value="{!Datas.BatchNumber__c}" />
+              <apex:column value="{!Datas.JobStatus__c}" />
+        </apex:pageblocktable>
+     </apex:pageBlock>
+   </apex:form>
+</apex:page>

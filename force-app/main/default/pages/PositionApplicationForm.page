@@ -1,0 +1,5 @@
+<!-- this is the visual force page that is added to the custom link on home page for opening up the form.-->
+
+<apex:page controller="posAppFormRedirect_Controller" action="{!doRedirect}"> 
+    Redirecting...
+</apex:page>

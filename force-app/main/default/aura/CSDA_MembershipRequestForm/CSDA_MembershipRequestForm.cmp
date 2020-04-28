@@ -1,0 +1,288 @@
+<aura:component controller="CSDA_MembershipRequestFormCont" implements="forceCommunity:availableForAllPageTypes" access="global">
+	<aura:attribute name="recordId" type="String"/>
+	<aura:attribute name="thisMembership" type="Membership_Contact__c"/>
+	<aura:attribute name="curUserContact" type="Contact"/>
+
+	<!-- Data -->
+    <aura:attribute name="membershipContacts" type="Membership_Contact__c[]"/>
+    <aura:attribute name="originalMembershipContacts" type="Membership_Contact__c[]"/>
+    <aura:attribute name="membershipAddresses" type="Membership_Address__c[]"/>
+    <aura:attribute name="originalMembershipAddresses" type="Membership_Address__c[]"/>
+    <aura:attribute name="supportingDocs" type="Membership_Document_Upload_Request__c[]"/>
+    <aura:attribute name="permPurposeOptions" type="object[]"/>
+    <aura:attribute name = "ThirdPartyRoleList" type ="List[]"/>
+    <aura:attribute name ="StaticDocList" type ="Document[]"/>
+
+    
+    <!-- Perm Purpose Matching Record ID, this will be created when the membership request is created  so it can be queried in the init --> 
+
+    <aura:attribute name="ppMatchingRec" type="Membership_Matching__c"/>
+    
+    
+	<!-- Responsible for rendering different sections-->
+	<aura:attribute name="SQDSectionActive" type="Boolean"/>
+    <aura:attribute name ="showPPSection" type="Boolean" Default ="true" />
+    <aura:attribute name="accountEdit" type="Boolean" default="false"  />
+	<aura:attribute name="addressEdit" type="Boolean" default="false"  />
+	<aura:attribute name="websiteEdit" type="Boolean" default="false"  />
+    
+
+	<!-- Reseller Questionnaire File ID -->
+	<aura:attribute name="questionnaireLink" type="String"/>
+	<aura:attribute name="uploadedQuestionnaire" type="Attachment"/>
+
+	<!-- Conf info ID -->
+	<!--<aura:attribute name="resellerConfInfoID" type="String"/>-->
+	<aura:attribute name="docConfInfoID" type="String"/>
+
+	<!-- Indicator to track if contact/address list is expanded. Need this to make sure modal doesn't toggle if already expanded. -->
+	<aura:attribute name="contactListExpanded" type="Boolean" default="false"/>
+	<aura:attribute name="addressListExpanded" type="Boolean" default="false"/>
+	
+    <!-- Fraud Net Attributes -->
+	<aura:attribute name="jscFraudNet" type="String"/>
+	<aura:attribute name="hdimFraudNet" type="String"/>
+
+	<aura:attribute name ="EI3PAWhereIsApplicationOpts" Type ="List" default="[
+			{'label' : 'In-house','value':'In-house'},
+			{'label' : '3rd Party'' ,'value' : '3rd Party''},
+			{'label' : 'Other, describe', 'value' : 'Other, describe'}
+
+		]"/>
+
+    <aura:attribute name ="EI3PAWhereIsThirdPartyOpts" Type="List" default="[
+    		{'label' : 'Agent', 'value':'Agent'},
+    		{'label' : 'Direct Client/End-User', 'value':'Direct Client/End-User' },
+    		{'label' :  'Other, describe:', 'value':'Other, describe:'}
+    	]"/>
+    
+    <!-- Handlers-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+
+    <aura:handler name="DeleteRowEvt" event="c:CSDA_DeleteDynamicRowEvent" action="{!c.removeRow}"/>
+    <aura:handler name="AddContactEvt" event="c:CSDA_AddRecordEvent" action="{!c.addContactFromEvt}"/>
+    <aura:handler name="AddAddressEvt" event="c:CSDA_AddRecordEvent" action="{!c.addAddressFromEvt}"/>
+
+   
+    <aura:registerEvent name="GetFraudNetAttributes" type="c:CSDA_SubmitEvent"/> 
+    
+	<lightning:spinner variant="brand" size="large" aura:id="mySpinner" class="slds-hide"/>
+
+    <!-- Static Resource-->
+	<ltng:require scripts="{!$Resource.mempxe}" afterScriptsLoaded="{!c.mempxeInitialize}"/>
+    
+	<!-- Modal-->
+	<div aura:id="ModalDialogPlaceholder" />
+
+	<!-- Form -->
+    <div class="slds-p-horizontal_large" style="padding-left:5%;padding-right:5%;">
+	    <div>
+		    <lightning:card class="opacity">
+		    	<aura:set attribute="title">
+		    		<div class="top2">
+			    		<lightning:icon iconName="standard:groups" size="large"/>
+			    		&nbsp;<ui:outputText value="{!v.thisMembership.Name}"/>
+			    	</div>
+                    <div class="centerDiv top2">
+			    		<lightning:icon iconName="standard:service_resource" size="large"/>
+			    		&nbsp;
+
+	                 	<aura:if isTrue="{!v.thisMembership.EasyLife__User_Entered_Account_Name__c == undefined}">
+	                 		<ui:outputText value="{!v.thisMembership.EasyLife__Account__r.Name}" />              
+	                 		<aura:set attribute="else">
+	                 			<ui:outputText value="{!v.thisMembership.User_Entered_Account_Name__c}" />
+	                 		</aura:set>
+	                 	</aura:if>
+			        </div>
+			    <br/>
+			    <br/>
+		    	</aura:set>
+
+                <aura:set attribute="actions">
+		            <lightning:button class="experianDarkBlue bold" name="update" label="Save" onclick="{!c.save}"/>
+		            <lightning:button class="experianPurple bold" name="submit" label="Submit" onclick="{!c.openSubmitModal}"/>
+		        </aura:set>
+                
+		    	<div class="slds-border_top" style="border-color: #632678;"/>
+		        <br/>
+
+		        <p class="slds-p-horizontal_small">
+		        	<!-- Field List Grid -->
+		        	<div class="slds-page-header opacity" >
+		        		<section class="slds-clearfix">
+		        			<div class="slds-float--left ">
+					            <lightning:icon class="slds-hide" aura:id="mainSection" iconName="utility:add" size="x-small" alternativeText="Indicates add"/>
+					            <lightning:icon class="slds-show" aura:id="mainSection" iconName="utility:dash" size="x-small" alternativeText="Indicates dash"/>
+					        </div>
+		        			<h1 id="mainSection" onclick="{!c.toggleSection}" class="slds-page-header__title slds-truncate slds-align-middle" style="font-size: 16px;cursor: pointer;">Membership Request Information</h1>
+		        		</section> 
+		        	</div>
+				<div class="slds-border_top" style="border-color: #632678;"/>
+		        <br/>
+		       
+                    
+                    
+		        	<div aura:id="mainSection" class="slds-show">
+				    	<div class="slds-grid slds-wrap">
+				    		{!v.thisMembership.Name}<br/>
+				    		{!v.thisMembership.Id}
+				            
+				            <div class="slds-col slds-size_1-of-4"/>
+
+				            <div class="slds-col slds-size_1-of-4"/>
+
+				            
+				            <div class="slds-col slds-size_1-of-4"/>
+				          
+				            <div class="slds-col slds-size_1-of-4"/>
+
+
+				            <div class="slds-col slds-size_1-of-4"/>
+				           
+				            <div class="slds-col slds-size_1-of-4"/>
+
+				           
+				            <div class="slds-col slds-size_1-of-4"/>
+				            <div class="slds-col slds-size_1-of-4"/>
+
+				            
+				            <div class="slds-col slds-size_1-of-4"/>
+				            
+				            <div class="slds-col slds-size_1-of-4"/>
+
+				            <div class="slds-col slds-size_1-of-4"/>
+				            <div class="slds-col slds-size_1-of-4"/>
+
+				            <div class="slds-col slds-size_1-of-4"/>
+				            <div class="slds-col slds-size_1-of-4">
+				            	
+				            </div>
+				            <div class="slds-col slds-size_1-of-4"/>
+
+				            <div class="slds-col slds-size_1-of-4"/>
+				            
+				            <div class="slds-col slds-size_1-of-4"/>
+
+				            <div class="slds-col slds-size_1-of-4"/>
+				            <div class="slds-col slds-size_1-of-4" style="font-size: 11px; color:red">
+				            	<br/>
+				            	<!--If you answered 'No', please enter the Contract Signer's details in the Membership Contacts List.-->
+				            </div>
+
+				            <div class="slds-col slds-size_1-of-4"/>
+				           
+				            <div class="slds-col slds-size_1-of-4" style="font-size: 11px; color:red">
+				            	<br/>
+				            	<!--If you answered 'No', please enter the Head Designate's details in the Membership Contacts List.-->
+				            </div>
+
+				           
+				            <div class="slds-col slds-size_1-of-4"/>
+				           
+				            <div class="slds-col slds-size_1-of-4"/>
+
+				            <!--
+				            <aura:if isTrue="{!v.thisMembership.Third_Party_Involved__c}">
+				            	
+					            <div class="slds-col slds-size_1-of-4">
+				                	<ui:outputText class="header-label" value="Account Name" /> <br/>
+				                	<ui:inputText value="{!v.thisMembership.Third_Party_Account__c}" />
+					            </div>
+					            <div class="slds-col slds-size_1-of-4"/>
+					            <div class="slds-col slds-size_1-of-4">
+					            	<ui:outputText class="header-label" value="Account Web Address" /> <br/>
+				                	<ui:inputText value="{!v.thisMembership.Third_Party_Web_Address__c}" />
+				                </div>
+					            <div class="slds-col slds-size_1-of-4"/>
+					        
+
+					            <div class="slds-col slds-size_1-of-4">
+				                	<ui:outputText class="header-label" value="What services does that third party provide?" /> <br/>
+				                	<ui:inputText value="{!v.thisMembership.Third_Party_s_Role__c}" />
+					            </div>
+					            <div class="slds-col slds-size_1-of-4"/>
+					            <div class="slds-col slds-size_1-of-4"/>
+					            <div class="slds-col slds-size_1-of-4"/>
+				            </aura:if>
+-->
+				            
+				            <div class="slds-col slds-size_1-of-4"/>
+				           
+				            				            
+						</div>
+						<br/>
+					</div>
+
+					<!-- SQD SECTION-->
+		           
+
+				    <!-- Permissible Purpose -->
+			      
+
+					<!-- Membership CONTACT-->
+			       <div class="slds-border_top" style="border-color: #632678">
+			       		<div class="slds-page-header opacity">
+			       			<section class="slds-clearfix">
+			       				<h1 id="contactSection" onclick="{!c.toggleSection}" class="slds-page-header__title slds-truncate slds-align-middle" style="font-size: 16px;cursor: pointer;">Membership Contacts</h1>
+			        			<div  style="float:right" aura:id="contactSection">
+			        				<lightning:button class="experianPurple bold" label="Add Contact" onclick="{!c.AddContactRow}"/>
+			        			</div>	
+			       			</section>
+			       		</div>	
+			       		<div class="" aura:id="contactSection">
+			       			<table class="slds-table slds-table--bordered slds-table--call-buffer table-border" style="table-layout: auto;">
+			       				<thead>
+			       					<tr class="slds-line-height--reset">
+						                <th class="table-row-content experianDarkBlue" scope="col">First Name</th>
+						                <th class="table-row-content experianDarkBlue" scope="col">Last Name</th>
+						                <th class="table-row-content experianDarkBlue" scope="col" style="width:180px">Role</th>
+						                <th class="table-row-content experianDarkBlue" scope="col">Email</th>
+						                <th class="table-row-content experianDarkBlue" scope="col">Phone</th>
+						                <th class="table-row-content experianDarkBlue" scope="col">Street</th>
+						                <th class="table-row-content experianDarkBlue" scope="col">City</th>
+						                <th class="table-row-content experianDarkBlue" scope="col">State</th>
+						                <th class="table-row-content experianDarkBlue" scope="col">Zip</th>
+						                <th class="table-row-content experianDarkBlue" style="width:100px" scope="col">Is Third Party?</th>
+						                <th class="table-row-content experianDarkBlue" style="width:20px" scope="col"></th>
+						            </tr>
+			       				</thead>
+			       				 <tbody>
+						        	<!-- Display existing membership contacts-->
+							        <!-- Allow dynamic creation of new contacts-->
+								    <aura:iteration items="{!v.membershipContacts}" var="item" indexVar="index">
+						                <c:CSDA_MembershipContactRow record="{!item}" />  
+						            </aura:iteration>
+								</tbody>			
+
+
+			       			</table>
+
+			       			
+
+
+			       		</div>
+
+
+
+
+
+			       </div>
+	
+
+			        <!-- Membership ADDRESS-->
+			        
+			        <!-- Questionnnaire -->
+				
+
+			        <!-- Support Documents -->
+			        <div class="slds-border_top" style="border-color: #632678;"/>
+		        	
+	
+			 
+		        </p>
+		    </lightning:card>
+	    </div>
+	</div>
+
+</aura:component>

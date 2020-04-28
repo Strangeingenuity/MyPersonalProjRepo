@@ -1,0 +1,29 @@
+<aura:component controller="CSDA_MembershipRequestTabCont" implements="forceCommunity:availableForAllPageTypes" access="global">
+	<aura:attribute name="allMemberships" type="membership__c[]"/>
+	<aura:attribute name="selTabId" type="String"/>
+	<aura:attribute name="membershipStatus" type="String"/>
+	<aura:attribute name="questionnaireLink" type="String"/>
+	<aura:attribute name="permPurposeOptions" type="object[]"/>
+	<aura:attribute name="curUserContact" type="Contact"/>
+    <aura:attribute name="ThirdPartyRoleList" type ="string[]"/>
+    <aura:attribute name="StaticDocList" type="Document[]"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<!-- Display a tab for each membership related to this contact-->
+	<div>
+        <aura:if isTrue="{v.allMemberships.length == 0}">
+        	No Membership Requests
+        </aura:if>
+		<lightning:tabset class="tabOpacity" aura:id="tabs" selectedTabId="{!v.selTabId}">
+			<aura:iteration items="{!v.allMemberships}" var="eachMembership">
+				<lightning:tab id="{!eachMembership}" onactive="{!c.handleActive}">
+		            <aura:set attribute="label">
+		            	{!eachMembership.Name}
+		            </aura:set>
+		        </lightning:tab>
+			</aura:iteration>
+	    </lightning:tabset>
+	</div>
+
+</aura:component>

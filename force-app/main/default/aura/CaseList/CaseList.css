@@ -1,0 +1,98 @@
+.THIS.filter-search {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.THIS .search-by-header {
+    display: inline-block;
+    margin-right: 16px;
+    font-size: 16px;
+}
+.THIS .search-by-field {
+    display: inline-block;
+    margin-right: 16px;
+    font-size: 16px;
+}
+.THIS .search-key {
+    display: inline-block;
+    margin-right: 16px;
+    font-size: 15px;
+}
+
+.THIS li {
+    border-bottom: solid 1px #DDDDDD;
+    padding: 8px;
+}
+
+.THIS p {
+    background-color: green;
+    margin: 4px;
+}
+
+.THIS .tBodyRow {
+    padding: 8px;
+    border-bottom: solid 1px #DDDDDD;
+    margin-top: 10px;
+    
+}
+
+.THIS .tHead {
+    background-color:rgb(234, 234, 241);
+    
+}
+
+.THIS .tBodyColumn {
+    padding: 8px;
+}
+
+
+.THIS {
+}
+
+.THIS .pageBtn {
+    display: inline-block;
+    height: 32px;
+    min-width: 64px;
+    margin-right: 10px;
+}
+
+/*.THIS .uiButton > span {
+    color: black;
+    font-size: 2em;
+}*/
+
+.THIS .paginationPageSelector {
+    width: 70px !important;
+    font-size: 18px;
+    display: block;
+    height: 26px;
+
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    text-align: center; 
+}
+
+.THIS .paginationPageSelectorCommonSetting {
+    float: right !important;
+    display: inline-block !important;
+    font-family: BentonSans,sans-serif;
+    font-size: 18px;
+    margin-right: 16px;
+}
+
+.THIS .float-left {
+    float: left;
+}
+
+.THIS .right-margin {
+    margin-right: 6px;
+}
+
+.THIS .pagination-control-section {
+    margin-top: 32px;
+    text-align: center;
+}

@@ -1,0 +1,5 @@
+<apex:page standardController="Opportunity">
+<script>
+window.top.location.replace("{!URLFOR($Action.Opportunity.Edit, opportunity.id, [saveURL='/apex/A', retURL='/'+opportunity.id, cancelURL='/'+opportunity.id], true)}");
+</script>
+</apex:page>

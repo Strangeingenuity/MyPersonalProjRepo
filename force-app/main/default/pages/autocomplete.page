@@ -1,0 +1,10 @@
+<apex:page Controller="AutoCompleteController" id="page">  
+        <apex:form id="form">
+                <!--<apex:inputField value = "{!Ratingoptions}"/> -->
+                <apex:inputText value="{!Ratingoptions}"/>
+                <apex:outputText >{!testStr1}</apex:outputText>
+                <apex:selectList id="Ratings" size="1" required="true"> 
+                      <apex:selectOptions value="{!Ratingoptions}"/>
+                </apex:selectList>
+        </apex:form>  
+</apex:page>

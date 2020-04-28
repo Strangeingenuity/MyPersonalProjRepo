@@ -1,0 +1,16 @@
+<apex:page standardController="EasyUpdateQueue__c">
+<apex:form >
+<apex:pageBlock >
+<apex:pageBlockSection title="Data Update Details" columns="4">  
+    <apex:pageBlockSectionItem >
+        <apex:panelGrid columns="8">
+            <apex:inputField Value="{!EasyUpdateQueue__c.ObjectName__c}" label="Object Name" style="width:130px"/>
+            <apex:inputField Value="{!EasyUpdateQueue__c.JobNumber__c}" label="Job Number" style="width: 80px"/>
+            <apex:inputField Value="{!EasyUpdateQueue__c.JobStatus__c}" label="Status" style="width: 80px"/>
+            <apex:inputField Value="{!EasyUpdateQueue__c.NumberOfRecords__c}" label="Number Of Records" style="width: 80px"/>
+         </apex:panelGrid>
+    </apex:pageBlockSectionItem>
+</apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form>
+</apex:page>

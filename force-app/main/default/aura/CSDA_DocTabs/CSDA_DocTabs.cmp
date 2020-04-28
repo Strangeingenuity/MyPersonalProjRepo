@@ -1,0 +1,13 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="selTabId" type="String"/>
+    <aura:attribute name="thisMembership" type ="membership__c"/>
+    <aura:attribute name ="membershipContacts" type="Membership_Contact__c[]"/>
+    <aura:attribute name="membershipAddresses" type = "Membership_Address__c[]"/>
+    <aura:attribute name ="supportingDocs" type ="Membership_Document_Upload_Request__c"/>
+    <aura:attribute name ="CPQPricingDocs" type ="Membership_Document_Upload_Request__c"/>
+    <aura:attribute name ="docConfInfoID" type ="String" />
+    
+    <aura:handler name ="init" value="{!this}" action="{!c.doInit}"/>
+    
+    
+</aura:component>

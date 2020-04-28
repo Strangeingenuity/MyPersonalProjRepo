@@ -1,0 +1,53 @@
+<apex:page standardController="Account">
+<apex:form >
+<apex:pageBlock title="Account Edit" mode="Edit">
+    <apex:pageBlockButtons id="theButtons">
+        <apex:commandButton value="Save" onclick="return validate()"/>
+    </apex:pageBlockButtons>
+    <apex:pageBlockSection title="Information">
+        <apex:inputField value="{!Account.Name}" id="Unit"/>
+    </apex:pageBlockSection>
+ </apex:pageBlock>
+ <apex:actionFunction action="{!save}" name="saveJavaScriptFunction"/>
+</apex:form>
+
+<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"/>
+<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+ <script scr="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
+    <script scr="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+    <script scr="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/ui-lightness/jquery-ui.css"></script>
+<script>
+ function validate(){ 
+var j$ = jQuery.noConflict();
+var unit = j$("input[id$='Unit']").val();  
+alert(unit);
+if (unit == '') {  
+    j$('<div></div>').dialog({
+        resizable: false,
+        height:140,
+        modal: true,
+        open: function() {
+            var markup = 'No Unit Selected. Do you want to add one?';
+            j$(this).html(markup);
+        },
+        title: "Confirmation",
+        buttons: {
+            "Yes": function() {
+                j$(this).dialog("close");
+                // Do nothing so user can add
+            },
+            "No": function() {
+                j$(this).dialog("close");
+                // Invoke save
+                saveJavaScriptFunction();
+            }
+        }
+    });
+    return false; 
+} else {
+    return true;
+ }
+}
+ </script>
+  </apex:page>

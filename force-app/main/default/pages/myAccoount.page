@@ -1,0 +1,8 @@
+<apex:page controller="myController1" tabStyle="Account">
+    <apex:form >
+            <apex:pageBlock title="myAccoounts">
+                    <apex:inputField value="{!Accnt.name}"/>
+                    <apex:commandButton action="{!save}" value="save1"/>        
+            </apex:pageBlock>
+    </apex:form>
+</apex:page>

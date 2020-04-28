@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>34.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>Tyaga Pati; Salesforce Training on how to create a complete custom form to 
+do validation and users be able to call a apex inbound web service to create a new position</description>
+    <label>VisualForce_To_Call_WebService</label>
+</ApexPage>

@@ -1,0 +1,13 @@
+<apex:page StandardController="Contact" >
+    <script scr="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script scr="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+    <script scr="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/ui-lightness/jquery-ui.css"></script>
+
+    <apex:form >
+        <!--<apex:inputText/> value ="{!Rating}" Id="RatingTextField"/>-->
+       <!-- <apex:inputField value ="{!Contact.name}" Id="RatingInputField"/>  -->
+        <p>You are viewing the {!contact.name} account.</p>
+    </apex:form>>
+
+
+</apex:page>

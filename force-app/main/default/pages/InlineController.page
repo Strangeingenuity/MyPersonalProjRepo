@@ -1,0 +1,46 @@
+<apex:page sidebar="false" controller="InlineController">
+  <!--  <apex:sectionHeader title="Edit Employees" subtitle="{!$User.FirstName} {!$User.LastName}"/>-->
+    <p/>
+    <apex:pageMessages />
+    <apex:form >   
+    <apex:actionFunction name="saveEdit" action="{!saveEdit}"/>
+    <apex:pageBlock >
+    <apex:outputPanel id="contactList">
+    <table>
+        <tr>
+            <th style="width:40px"> </th>
+            <th style="width:40px"> </th>
+            <th style="width:90px">Last Name</th>
+            <th style="width:90px">Email</th>
+            <th>Mailing Country</th>
+        </tr>
+        <apex:repeat value="{!employees}" var="e">
+        <tr style="height:20px">
+            <apex:outputPanel id="editRow" layout="none" rendered="{!e.Id == editContact.Id}">
+                <td><apex:commandLink action="{!cancelEdit}" rerender="contactList">Cancel</apex:commandLink></td>
+                <td><apex:commandLink action="{!saveEdit}" rerender="contactList">Save</apex:commandLink></td>
+                <td><apex:inputField rendered="{!e.Id == editContact.Id}" value="{!editContact.LastName}"/></td>
+                <td><apex:inputField rendered="{!e.Id == editContact.Id}" value="{!editContact.email}"/></td>
+             <td><apex:inputField rendered="{!e.Id == editContact.Id}" onkeypress="if (event.keyCode == 13) saveEdit()" value="{!editContact.MailingCountry}"/></td>
+            </apex:outputPanel>
+            <apex:outputPanel id="viewRow" layout="none" rendered="{!e.Id != editContact.Id}">
+                <td>
+                    <apex:commandLink action="{!del}" onclick="return confirm('Are you sure you want to delete this Employee?')">Del
+                        <apex:param name="delid" value="{!e.Id}"/>
+                    </apex:commandLink>
+                </td>
+                <td>
+                    <apex:commandLink action="{!editcon}" rerender="employeeList">Edit <apex:param name="editid" value="{!e.id}"/>
+                    </apex:commandLink>
+                </td>
+                  <td>{!e.LastName}</td>    
+                 <td>{!e.email}</td>
+                <td>{!e.MailingCountry}</td>
+            </apex:outputPanel>
+        </tr>
+        </apex:repeat>
+    </table>
+    </apex:outputPanel>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>
