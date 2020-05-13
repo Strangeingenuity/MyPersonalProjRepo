@@ -3,7 +3,7 @@ public class AccountsController {
    public static List<Account> getAccounts() {
        //Case11222 code changes completed 
        //Some more code changes were meanwhile done in the master branch
-
+       //adding one more change to test Jenkins build
        return [SELECT Id, name, industry, Type, NumberOfEmployees, TickerSymbol, Phone, BillingStreet, BillingCity, BillingState, BillingPostalCode
        FROM Account ORDER BY createdDate ASC];
    }   
