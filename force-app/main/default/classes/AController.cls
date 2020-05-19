@@ -2,6 +2,8 @@ public class AController {
 
 public PageReference redirec() {
 // It seems that Edit event provide the working Opportunity id with newid
+
+// testing if the date changes on the server 
 id oppId = ApexPages.currentPage().getParameters().get('newid');
 // If no parameter, stay there (for debug)
 if(oppId == null) return null;
