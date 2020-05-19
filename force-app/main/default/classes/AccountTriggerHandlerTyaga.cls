@@ -5,6 +5,7 @@ Public Without Sharing Class AccountTriggerHandlerTyaga {
         //List<Account> NewAcc1 = New List<Account>();
         //Map<Id,Account> Oldmap1 = New Map<Id,Account> ();
         //Oldmap1 = OldMap;
+        //More changes for lighting project.
         String CountryCd;
         system.debug('Tyaga I am here 0000');
         List<Account> AccTbd = New List<Account>();
