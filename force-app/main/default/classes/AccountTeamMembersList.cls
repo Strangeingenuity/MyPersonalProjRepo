@@ -1,1 +1,1 @@
-This is NewFile2.
+public class DynamicObjectHandler {// This class acts as a controller for the DynamicObjectViewer component private String objType;private List<String> accessibleFields;
